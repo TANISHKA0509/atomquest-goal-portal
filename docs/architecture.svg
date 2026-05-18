@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="680" viewBox="0 0 1120 680" role="img" aria-labelledby="title desc">
+  <title id="title">AtomQuest Goal Portal Architecture</title>
+  <desc id="desc">Static browser demo architecture with local storage and suggested production extension.</desc>
+  <rect width="1120" height="680" fill="#0f1110"/>
+  <style>
+    .box{fill:#171a18;stroke:#465046;stroke-width:2;rx:10}
+    .box2{fill:#20241f;stroke:#465046;stroke-width:2;rx:10}
+    .text{fill:#edf1ea;font-family:Inter,Segoe UI,Arial,sans-serif;font-size:24px;font-weight:700}
+    .small{fill:#aab3aa;font-family:Inter,Segoe UI,Arial,sans-serif;font-size:17px}
+    .label{fill:#9ed39b;font-family:Inter,Segoe UI,Arial,sans-serif;font-size:18px;font-weight:700}
+    .line{stroke:#78b27a;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    .mutedLine{stroke:#7f887f;stroke-width:2;fill:none;stroke-dasharray:8 8;marker-end:url(#arrowMuted)}
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#78b27a"/>
+    </marker>
+    <marker id="arrowMuted" markerWidth="12" markerHeight="12" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7f887f"/>
+    </marker>
+  </defs>
+
+  <text x="56" y="62" class="text" font-size="30">AtomQuest Goal Portal</text>
+  <text x="56" y="94" class="small">Static hackathon demo with production-ready workflow boundaries</text>
+
+  <rect x="56" y="145" width="250" height="120" class="box"/>
+  <text x="82" y="190" class="text">Employee</text>
+  <text x="82" y="222" class="small">Goals, actuals, status</text>
+
+  <rect x="56" y="305" width="250" height="120" class="box"/>
+  <text x="82" y="350" class="text">Manager L1</text>
+  <text x="82" y="382" class="small">Approvals, check-ins</text>
+
+  <rect x="56" y="465" width="250" height="120" class="box"/>
+  <text x="82" y="510" class="text">Admin / HR</text>
+  <text x="82" y="542" class="small">Cycles, reports, audit</text>
+
+  <rect x="430" y="205" width="260" height="170" class="box2"/>
+  <text x="460" y="253" class="text">Browser SPA</text>
+  <text x="460" y="290" class="small">HTML, CSS, JavaScript</text>
+  <text x="460" y="320" class="small">Role-based screens</text>
+  <text x="460" y="350" class="small">Validation and scoring</text>
+
+  <rect x="805" y="205" width="240" height="170" class="box"/>
+  <text x="835" y="253" class="text">LocalStorage</text>
+  <text x="835" y="290" class="small">Demo data</text>
+  <text x="835" y="320" class="small">Goal sheets</text>
+  <text x="835" y="350" class="small">Audit and check-ins</text>
+
+  <rect x="430" y="465" width="260" height="120" class="box"/>
+  <text x="460" y="510" class="text">CSV Export</text>
+  <text x="460" y="542" class="small">Achievement report</text>
+
+  <rect x="805" y="465" width="240" height="120" class="box"/>
+  <text x="835" y="510" class="text">Production Path</text>
+  <text x="835" y="542" class="small">API, DB, SSO, Teams</text>
+
+  <path d="M306 205 C350 205 372 245 430 260" class="line"/>
+  <path d="M306 365 C350 365 372 335 430 315" class="line"/>
+  <path d="M306 525 C358 525 385 385 430 350" class="line"/>
+  <path d="M690 290 L805 290" class="line"/>
+  <path d="M560 375 L560 465" class="line"/>
+  <path d="M690 525 L805 525" class="mutedLine"/>
+
+  <text x="444" y="155" class="label">Current demo</text>
+  <text x="815" y="430" class="label">Low-cost extension</text>
+</svg>
