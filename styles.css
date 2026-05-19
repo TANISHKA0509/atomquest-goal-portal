@@ -108,7 +108,7 @@ textarea:disabled {
 
 .session {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 10px;
   align-items: center;
 }
@@ -666,6 +666,108 @@ tr:last-child td {
   text-align: center;
 }
 
+.entry-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 14;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(8, 10, 8, 0.82);
+}
+
+.entry-panel {
+  width: min(980px, 100%);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: #141714;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.62);
+}
+
+.entry-head {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.entry-head h2 {
+  margin: 12px 0 0;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  letter-spacing: 0;
+}
+
+.entry-head p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 22px 22px;
+}
+
+.role-card {
+  display: grid;
+  min-height: 170px;
+  gap: 10px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  color: var(--text);
+  background: var(--surface);
+  text-align: left;
+}
+
+.role-card:hover {
+  border-color: #6b976c;
+  background: var(--surface-2);
+}
+
+.role-card strong {
+  font-size: 1.1rem;
+}
+
+.role-card span,
+.role-card small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 22px 22px;
+}
+
+.timeline {
+  display: grid;
+  gap: 12px;
+}
+
+.timeline-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #131613;
+}
+
+.timeline-step p {
+  margin: 5px 0 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .audit-item {
   display: grid;
   gap: 5px;
@@ -786,6 +888,10 @@ tr:last-child td {
   .session,
   .view-head {
     display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .role-grid {
     grid-template-columns: 1fr;
   }
 

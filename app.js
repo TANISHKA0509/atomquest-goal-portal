@@ -113,6 +113,7 @@
     reportFilter: "",
     toast: null,
     modal: null,
+    entryOpen: true,
   };
 
   function createSeedState() {
@@ -621,6 +622,7 @@
               )
               .join("")}
           </select>
+          <button class="ghost-button" data-action="demo-guide">Demo guide</button>
           <button class="ghost-button" data-action="reset-demo">Reset demo</button>
         </div>
       </header>
@@ -640,6 +642,7 @@
         </aside>
         <main class="main">${renderView(user)}</main>
       </div>
+      ${ui.entryOpen ? renderRoleEntry() : ""}
       ${renderToast()}
       ${renderModal()}
     `;
@@ -675,6 +678,115 @@
         <div class="toolbar">${activeBadge()}${extra}</div>
       </div>
     `;
+  }
+
+  function renderRoleEntry() {
+    const personas = [
+      {
+        userId: "emp1",
+        title: "Employee",
+        view: "goals",
+        metric: "Create and submit goals",
+        copy: "Draft goals, pass validation, then send the sheet to L1.",
+      },
+      {
+        userId: "mgr1",
+        title: "Manager L1",
+        view: "approvals",
+        metric: "Approve and check in",
+        copy: "Review team sheets, edit targets inline, approve or return.",
+      },
+      {
+        userId: "admin1",
+        title: "Admin / HR",
+        view: "adminDashboard",
+        metric: "Governance and reports",
+        copy: "Open cycles, view completion, export CSV and audit exceptions.",
+      },
+    ];
+    return `
+      <div class="entry-backdrop">
+        <section class="entry-panel" role="dialog" aria-modal="true" aria-label="Choose demo role">
+          <div class="entry-head">
+            <div>
+              <span class="small-pill ok">Hackathon demo</span>
+              <h2>AtomQuest Goal Portal</h2>
+              <p>Pick a role and walk through the goal lifecycle end to end.</p>
+            </div>
+            <button class="ghost-button icon-button" data-action="dismiss-entry" aria-label="Close">x</button>
+          </div>
+          <div class="role-grid">
+            ${personas
+              .map((persona) => {
+                const user = state.users.find((item) => item.id === persona.userId);
+                return `
+                  <button class="role-card" data-action="choose-persona" data-user-id="${persona.userId}" data-view="${persona.view}">
+                    <span class="small-pill">${persona.title}</span>
+                    <strong>${escapeHtml(user?.name || persona.title)}</strong>
+                    <span>${persona.metric}</span>
+                    <small>${persona.copy}</small>
+                  </button>
+                `;
+              })
+              .join("")}
+          </div>
+          <div class="entry-actions">
+            <button class="solid-button" data-action="prepare-judge-demo">Prepare demo data</button>
+            <button class="ghost-button" data-action="demo-guide">Open guide</button>
+          </div>
+        </section>
+      </div>
+    `;
+  }
+
+  function openDemoGuide() {
+    ui.modal = {
+      title: "Judge Demo Guide",
+      subtitle: "A short path that touches every required role and the strongest screens.",
+      body: `
+        <div class="timeline">
+          <div class="timeline-step">
+            <span class="small-pill info">1</span>
+            <div>
+              <strong>Employee journey</strong>
+              <p>Open Aarav Mehta, show validation, submit the goal sheet to L1.</p>
+              <button class="ghost-button" data-action="jump-persona" data-user-id="emp1" data-view="goals">Open employee sheet</button>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <span class="small-pill info">2</span>
+            <div>
+              <strong>Manager approval</strong>
+              <p>Open Neha Rao, review pending sheets, edit a target or weightage, approve or return.</p>
+              <button class="ghost-button" data-action="jump-persona" data-user-id="mgr1" data-view="approvals">Open approvals</button>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <span class="small-pill info">3</span>
+            <div>
+              <strong>Quarterly check-in</strong>
+              <p>Switch to Q1, add achievement data, then save structured manager notes.</p>
+              <button class="ghost-button" data-action="jump-persona" data-user-id="mgr1" data-view="managerCheckins">Open check-ins</button>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <span class="small-pill info">4</span>
+            <div>
+              <strong>Admin governance</strong>
+              <p>Show completion, escalations, audit trail, unlock exception, report export and architecture.</p>
+              <button class="ghost-button" data-action="jump-persona" data-user-id="admin1" data-view="adminDashboard">Open admin dashboard</button>
+            </div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="actions-row">
+          <button class="solid-button" data-action="prepare-judge-demo">Prepare demo data</button>
+          <button class="ghost-button" data-action="jump-persona" data-user-id="admin1" data-view="reports">Open reports</button>
+          <button class="ghost-button" data-action="jump-persona" data-user-id="admin1" data-view="audit">Open audit</button>
+        </div>
+      `,
+    };
+    render();
   }
 
   function renderEmployeeGoals(user) {
@@ -2088,6 +2200,24 @@
     render();
   }
 
+  function prepareJudgeDemo() {
+    if (!window.confirm("Reset and prepare clean judge demo data?")) return;
+    state = createSeedState();
+    currentUserId = "emp1";
+    currentView = "goals";
+    ui.selectedQuarter = "Q1";
+    ui.teamFilter = "";
+    ui.reportFilter = "";
+    ui.entryOpen = false;
+    ui.modal = null;
+    state.cycle.activePeriod = "goal";
+    state.cycle.periodOpen.goal = true;
+    addAudit("admin1", "Judge demo prepared", "Clean demo data restored for hackathon walkthrough.");
+    setToast("Judge demo data is ready");
+    saveState();
+    render();
+  }
+
   function resetDemo() {
     if (!window.confirm("Reset all demo data?")) return;
     state = createSeedState();
@@ -2096,6 +2226,8 @@
     ui.selectedQuarter = "Q1";
     ui.teamFilter = "";
     ui.reportFilter = "";
+    ui.entryOpen = true;
+    ui.modal = null;
     setToast("Demo reset");
     saveState();
     render();
@@ -2156,6 +2288,21 @@
     if (action === "export-csv") exportCsv();
     if (action === "generate-escalations") generateEscalations();
     if (action === "seed-demo-progress") seedDemoProgress();
+    if (action === "prepare-judge-demo") prepareJudgeDemo();
+    if (action === "demo-guide") openDemoGuide();
+    if (action === "dismiss-entry") {
+      ui.entryOpen = false;
+      render();
+    }
+    if (action === "choose-persona" || action === "jump-persona") {
+      currentUserId = target.dataset.userId;
+      currentView = target.dataset.view || defaultViewForRole(currentUser().role);
+      ui.entryOpen = false;
+      ui.modal = null;
+      setToast(`${currentUser().role} view opened`);
+      saveState();
+      render();
+    }
     if (action === "select-quarter") {
       ui.selectedQuarter = target.dataset.quarter;
       render();
